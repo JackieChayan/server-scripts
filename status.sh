@@ -9,3 +9,4 @@ echo "Диск:"
 df -h / | tail -1
 echo "Docker-контейнеры:"
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || echo "  Docker не запущен или нет контейнеров"
+# Версия 1.1
