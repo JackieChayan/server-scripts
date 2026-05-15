@@ -1,0 +1,14 @@
+---
+# Роль: nginx
+# Задачи: Установка и запуск Nginx
+
+- name: Установить Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+
+- name: Запустить и включить Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes

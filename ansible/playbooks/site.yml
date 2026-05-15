@@ -1,0 +1,13 @@
+---
+- name: Полная настройка сервера Chayan
+  hosts: my_servers
+  become: yes
+
+  roles:
+    - common
+    - ssh
+    - fail2ban
+    - nginx
+    - docker
+    # - postfix  # Раскомментируем позже, когда будем готовы
+    # - cron     # И это тоже

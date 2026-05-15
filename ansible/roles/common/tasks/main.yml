@@ -1,0 +1,25 @@
+---
+# Роль: common
+# Задачи: Обновление системы, установка базовых пакетов, настройка часового пояса
+
+- name: Обновить список пакетов (apt update)
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Установить базовые утилиты
+  ansible.builtin.apt:
+    name:
+      - htop
+      - vim
+      - git
+      - curl
+      - wget
+      - tree
+      - ufw
+    state: present
+
+- name: Настроить часовой пояс на Europe/Moscow
+  community.general.timezone:
+    name: Europe/Moscow
+#  notify: Перезапустить cron

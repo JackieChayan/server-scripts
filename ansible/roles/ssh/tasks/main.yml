@@ -1,0 +1,24 @@
+---
+# Роль: ssh
+# Задачи: Настройка безопасного SSH (порт 2244, только ключи)
+
+- name: Изменить порт SSH на 2244
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Port '
+    line: 'Port 2244'
+  notify: Перезапустить SSH
+
+- name: Запретить вход по паролю
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication '
+    line: 'PasswordAuthentication no'
+  notify: Перезапустить SSH
+
+- name: Запретить вход для root
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin '
+    line: 'PermitRootLogin no'
+  notify: Перезапустить SSH
