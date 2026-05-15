@@ -1,0 +1,35 @@
+---
+- name: Настройка базового файрвола UFW
+  hosts: my_servers
+  become: yes  # <-- Это волшебное слово значит "выполнять от root (sudo)"
+
+  tasks:
+    - name: Установить UFW (на случай, если его нет)
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+        update_cache: yes
+
+    - name: Разрешить порт SSH (2244)
+      community.general.ufw:
+        rule: allow
+        port: '2244'
+        proto: tcp
+
+    - name: Разрешить порт HTTP (80)
+      community.general.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+
+    - name: Разрешить порт HTTPS (443)
+      community.general.ufw:
+        rule: allow
+        port: '443'
+        proto: tcp
+
+    - name: Включить UFW и установить политику по умолчанию "запретить входящие"
+      community.general.ufw:
+        state: enabled
+        policy: deny
+        direction: incoming
