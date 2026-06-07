@@ -1,4 +1,4 @@
-name: Деплой на сервер
+name: Тесты и деплой
 
 on:
   push:
@@ -6,7 +6,31 @@ on:
       - main
 
 jobs:
+  # Первая задача: тесты
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать код из GitHub
+        uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Установить зависимости
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Запустить тесты
+        run: |
+          cd backend
+          python -m pytest tests/ -v
+
+  # Вторая задача: деплой (только если тесты прошли)
   deploy:
+    needs: test                    # Ждать, пока тесты пройдут
     runs-on: ubuntu-latest
     steps:
       - name: Зайти на сервер и обновить проект
